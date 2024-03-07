@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+
+git stash -q --keep-index
+
+npm run prettier:write
+
+status=$?
+
+git stash pop -q
+
+exit $status
