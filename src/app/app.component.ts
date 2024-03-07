@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -9,6 +9,7 @@ import {
   NavigationStart,
   Router
 } from '@angular/router';
+import { AuthActions, AuthSelectors } from './auth/domain/auth-types';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +18,17 @@ import {
 })
 export class AppComponent implements OnInit {
   loading = true;
+  isLoggedIn$: Observable<boolean> = this.store.select(
+    AuthSelectors.selectIsLoggedIn
+  );
+  isLoggedOut$: Observable<boolean> = this.store.select(
+    AuthSelectors.selectIsLoggedOut
+  );
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private store: Store
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
