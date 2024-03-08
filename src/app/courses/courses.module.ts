@@ -29,21 +29,35 @@ import { EditCourseDialogComponent } from './ui/components/edit-course-dialog/ed
 import { CoursesHttpService } from './infrastructure/courses-http.service';
 import { CourseComponent } from './ui/components/course/course.component';
 
-import { compareCourses, Course } from './domain/model/course';
+import { compareCourses } from './domain/model/course';
 
-import { compareLessons, Lesson } from './domain/model/lesson';
 import * as fromCourses from './domain/reducers';
+import { CoursesEntityService } from './infrastructure/courses-entity.service';
+import { CoursesResolver } from './infrastructure/courses-resolver.service';
+import { CoursesDataService } from './infrastructure/courses-data.service';
 
 export const coursesRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: {
+      Courses: CoursesResolver
+    }
   },
   {
     path: ':courseUrl',
-    component: CourseComponent
+    component: CourseComponent,
+    resolve: {
+      Courses: CoursesResolver
+    }
   }
 ];
+
+const entityMetadata: EntityMetadataMap = {
+  Course: {
+    sortComparer: compareCourses
+  }
+};
 
 @NgModule({
   imports: [
@@ -63,12 +77,7 @@ export const coursesRoutes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
-    RouterModule.forChild(coursesRoutes),
-    StoreModule.forFeature(
-      fromCourses.coursesFeatureKey,
-      fromCourses.reducers,
-      { metaReducers: fromCourses.metaReducers }
-    )
+    RouterModule.forChild(coursesRoutes)
   ],
   declarations: [
     HomeComponent,
@@ -82,8 +91,15 @@ export const coursesRoutes: Routes = [
     EditCourseDialogComponent,
     CourseComponent
   ],
-  providers: [CoursesHttpService]
+  providers: [CoursesHttpService, CoursesEntityService, CoursesDataService]
 })
 export class CoursesModule {
-  constructor() {}
+  constructor(
+    private edb: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private coursesDataService: CoursesDataService
+  ) {
+    edb.registerMetadataMap(entityMetadata);
+    entityDataService.registerService('Course', coursesDataService);
+  }
 }
