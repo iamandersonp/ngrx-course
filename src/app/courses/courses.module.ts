@@ -33,11 +33,17 @@ import { compareCourses, Course } from './domain/model/course';
 
 import { compareLessons, Lesson } from './domain/model/lesson';
 import * as fromCourses from './domain/reducers';
+import { CoursesResolverService } from './infrastructure/courses-resolver.service';
+import { EffectsModule } from '@ngrx/effects';
+import { CoursesEffectaService } from './infrastructure/courses-effecta.service';
 
 export const coursesRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: {
+      courses: CoursesResolverService
+    }
   },
   {
     path: ':courseUrl',
@@ -68,7 +74,8 @@ export const coursesRoutes: Routes = [
       fromCourses.coursesFeatureKey,
       fromCourses.reducers,
       { metaReducers: fromCourses.metaReducers }
-    )
+    ),
+    EffectsModule.forFeature([CoursesEffectaService])
   ],
   declarations: [
     HomeComponent,
@@ -82,7 +89,7 @@ export const coursesRoutes: Routes = [
     EditCourseDialogComponent,
     CourseComponent
   ],
-  providers: [CoursesHttpService]
+  providers: [CoursesHttpService, CoursesResolverService]
 })
 export class CoursesModule {
   constructor() {}
