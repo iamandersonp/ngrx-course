@@ -1,12 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Course } from '../model/course';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CoursesHttpService } from '../services/courses-http.service';
+
+import { Course } from '../../../domain/model/course';
+import { CoursesHttpService } from '../../../infrastructure/courses-http.service';
 
 @Component({
-  selector: 'course-dialog',
+  selector: 'app-course-dialog',
   templateUrl: './edit-course-dialog.component.html',
   styleUrls: ['./edit-course-dialog.component.css']
 })

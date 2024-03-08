@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
-import { EditCourseDialogComponent } from './edit-course-dialog/edit-course-dialog.component';
-import { CoursesHttpService } from './services/courses-http.service';
-import { CourseComponent } from './course/course.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -21,14 +16,23 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 import {
   EntityDataService,
   EntityDefinitionService,
   EntityMetadataMap
 } from '@ngrx/data';
-import { compareCourses, Course } from './model/course';
 
-import { compareLessons, Lesson } from './model/lesson';
+import { HomeComponent } from './ui/components/home/home.component';
+import { CoursesCardListComponent } from './ui/components/courses-card-list/courses-card-list.component';
+import { EditCourseDialogComponent } from './ui/components/edit-course-dialog/edit-course-dialog.component';
+import { CoursesHttpService } from './infrastructure/courses-http.service';
+import { CourseComponent } from './ui/components/course/course.component';
+
+import { compareCourses, Course } from './domain/model/course';
+
+import { compareLessons, Lesson } from './domain/model/lesson';
+import * as fromCourses from './domain/reducers';
 
 export const coursesRoutes: Routes = [
   {
@@ -59,7 +63,12 @@ export const coursesRoutes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
-    RouterModule.forChild(coursesRoutes)
+    RouterModule.forChild(coursesRoutes),
+    StoreModule.forFeature(
+      fromCourses.coursesFeatureKey,
+      fromCourses.reducers,
+      { metaReducers: fromCourses.metaReducers }
+    )
   ],
   declarations: [
     HomeComponent,
