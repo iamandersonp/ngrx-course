@@ -15,4 +15,18 @@ export class CoursesEffectaService {
       map((courses) => CoursesActions.AllCoursesLoaded({ courses }))
     );
   });
+  saveCourse$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CoursesActions.courseUpdated),
+        concatMap((action) =>
+          this.coursesHttpService.saveCourse(
+            action.update.id,
+            action.update.changes
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
 }

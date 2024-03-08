@@ -31,6 +31,9 @@ export const reducers: ActionReducer<CoursesState, Action> = createReducer(
   initialCoursesState,
   on(CoursesActions.AllCoursesLoaded, (state, action) =>
     courseAdapter.setAll(action.courses, { ...state, allCoursesLoaded: true })
+  ),
+  on(CoursesActions.courseUpdated, (state, action) =>
+    courseAdapter.updateOne(action.update, state)
   )
 );
 
