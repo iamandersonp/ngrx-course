@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Course } from '../model/course';
 import { Observable } from 'rxjs';
-import { Lesson } from '../model/lesson';
 import {
   concatMap,
   delay,
@@ -13,10 +11,13 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-import { CoursesHttpService } from '../services/courses-http.service';
+
+import { Course } from '../../../domain/model/course';
+import { Lesson } from '../../../domain/model/lesson';
+import { CoursesHttpService } from '../../../infrastructure/courses-http.service';
 
 @Component({
-  selector: 'course',
+  selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })

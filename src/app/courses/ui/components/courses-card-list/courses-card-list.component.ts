@@ -6,13 +6,14 @@ import {
   Output,
   ViewEncapsulation
 } from '@angular/core';
-import { Course } from '../model/course';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+import { Course } from '../../../domain/model/course';
 import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
-import { defaultDialogConfig } from '../shared/default-dialog-config';
+import { defaultDialogConfig } from '../../shared/default-dialog-config';
 
 @Component({
-  selector: 'courses-card-list',
+  selector: 'app-courses-card-list',
   templateUrl: './courses-card-list.component.html',
   styleUrls: ['./courses-card-list.component.css']
 })
@@ -25,7 +26,9 @@ export class CoursesCardListComponent implements OnInit {
 
   constructor(private dialog: MatDialog) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('CoursesCardListComponent created!');
+  }
 
   editCourse(course: Course) {
     const dialogConfig = defaultDialogConfig();
