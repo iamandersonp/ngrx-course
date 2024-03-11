@@ -7,14 +7,34 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
-  Router
+  Router,
+  RouterLink,
+  RouterOutlet
 } from '@angular/router';
 import { AuthActions, AuthSelectors } from './auth/domain/auth-types';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [
+    MatSidenavModule,
+    MatListModule,
+    RouterLink,
+    MatIconModule,
+    NgIf,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    RouterOutlet,
+    AsyncPipe
+  ]
 })
 export class AppComponent implements OnInit {
   loading = true;

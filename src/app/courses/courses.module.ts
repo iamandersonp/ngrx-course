@@ -84,10 +84,7 @@ const entityMetadata: EntityMetadataMap = {
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
-
-    RouterModule.forChild(coursesRoutes)
-  ],
-  declarations: [
+    RouterModule.forChild(coursesRoutes),
     HomeComponent,
     CoursesCardListComponent,
     EditCourseDialogComponent,
@@ -99,7 +96,6 @@ const entityMetadata: EntityMetadataMap = {
     EditCourseDialogComponent,
     CourseComponent
   ],
-
   providers: [
     CoursesHttpService,
     CoursesEntityService,
