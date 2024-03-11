@@ -1,16 +1,51 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions
+} from '@angular/material/dialog';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Course } from '../../../domain/model/course';
 import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-course-dialog',
   templateUrl: './edit-course-dialog.component.html',
-  styleUrls: ['./edit-course-dialog.component.css']
+  styleUrls: ['./edit-course-dialog.component.css'],
+  standalone: true,
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    NgIf,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatSlideToggleModule,
+    MatDialogActions,
+    MatButtonModule,
+    AsyncPipe
+  ]
 })
 export class EditCourseDialogComponent {
   private fb: FormBuilder = inject(FormBuilder);
