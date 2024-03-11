@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Course } from '../../../domain/model/course';
-import { CoursesActions } from '../../../domain/courses-types';
+import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
 
 @Component({
   selector: 'app-course-dialog',
@@ -16,9 +16,8 @@ export class EditCourseDialogComponent {
   private fb: FormBuilder = inject(FormBuilder);
   private dialogRef: MatDialogRef<EditCourseDialogComponent> =
     inject(MatDialogRef);
-
+  private coursesService: CoursesEntityService = inject(CoursesEntityService);
   private data = inject(MAT_DIALOG_DATA);
-  private store: Store = inject(Store);
   form: FormGroup;
 
   dialogTitle: string;
@@ -63,12 +62,18 @@ export class EditCourseDialogComponent {
       ...this.form.value
     };
 
-    const update = {
-      id: course.id,
-      changes: course
-    };
-
-    this.store.dispatch(CoursesActions.courseUpdated({ update }));
-    this.dialogRef.close();
+    if (this.mode == 'update') {
+      this.coursesService.update(course);
+      this.dialogRef.close();
+    } else if (this.mode == 'create') {
+      this.coursesService.add(course).subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        (error) => {
+          console.log('Error', error);
+        }
+      );
+    }
   }
 }
