@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { Course } from '../../../domain/model/course';
 import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
 
-
 @Component({
   selector: 'app-course-dialog',
   templateUrl: './edit-course-dialog.component.html',

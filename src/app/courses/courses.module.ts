@@ -37,7 +37,6 @@ import { CoursesDataService } from './infrastructure/courses-data.service';
 import { compareLessons } from './domain/model/lesson';
 import { LessonEntityService } from './infrastructure/lesson-entity.service';
 
-
 export const coursesRoutes: Routes = [
   {
     path: '',
