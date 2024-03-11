@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
+
 import {
   EntityDataService,
   EntityDefinitionService,
@@ -29,27 +29,43 @@ import { EditCourseDialogComponent } from './ui/components/edit-course-dialog/ed
 import { CoursesHttpService } from './infrastructure/courses-http.service';
 import { CourseComponent } from './ui/components/course/course.component';
 
-import { compareCourses, Course } from './domain/model/course';
+import { compareCourses } from './domain/model/course';
 
-import { compareLessons, Lesson } from './domain/model/lesson';
-import * as fromCourses from './domain/reducers';
-import { CoursesResolverService } from './infrastructure/courses-resolver.service';
-import { EffectsModule } from '@ngrx/effects';
-import { CoursesEffectaService } from './infrastructure/courses-effecta.service';
+import { CoursesEntityService } from './infrastructure/courses-entity.service';
+import { CoursesResolver } from './infrastructure/courses-resolver.service';
+import { CoursesDataService } from './infrastructure/courses-data.service';
+import { compareLessons } from './domain/model/lesson';
+import { LessonEntityService } from './infrastructure/lesson-entity.service';
+
 
 export const coursesRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
     resolve: {
-      courses: CoursesResolverService
+      Courses: CoursesResolver
     }
   },
   {
     path: ':courseUrl',
-    component: CourseComponent
+    component: CourseComponent,
+    resolve: {
+      Courses: CoursesResolver
+    }
   }
 ];
+
+const entityMetadata: EntityMetadataMap = {
+  Course: {
+    sortComparer: compareCourses,
+    entityDispatcherOptions: {
+      optimisticUpdate: true
+    }
+  },
+  Lesson: {
+    sortComparer: compareLessons
+  }
+};
 
 @NgModule({
   imports: [
@@ -69,13 +85,8 @@ export const coursesRoutes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
-    RouterModule.forChild(coursesRoutes),
-    StoreModule.forFeature(
-      fromCourses.coursesFeatureKey,
-      fromCourses.reducers,
-      { metaReducers: fromCourses.metaReducers }
-    ),
-    EffectsModule.forFeature([CoursesEffectaService])
+
+    RouterModule.forChild(coursesRoutes)
   ],
   declarations: [
     HomeComponent,
@@ -89,8 +100,21 @@ export const coursesRoutes: Routes = [
     EditCourseDialogComponent,
     CourseComponent
   ],
-  providers: [CoursesHttpService, CoursesResolverService]
+
+  providers: [
+    CoursesHttpService,
+    CoursesEntityService,
+    LessonEntityService,
+    CoursesDataService
+  ]
 })
 export class CoursesModule {
-  constructor() {}
+  constructor(
+    private edb: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private coursesDataService: CoursesDataService
+  ) {
+    edb.registerMetadataMap(entityMetadata);
+    entityDataService.registerService('Course', coursesDataService);
+  }
 }
