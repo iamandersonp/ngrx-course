@@ -1,10 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { Course } from '../../../domain/model/course';
-import { CoursesHttpService } from '../../../infrastructure/courses-http.service';
+import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
 
 @Component({
   selector: 'app-course-dialog',
@@ -12,6 +12,11 @@ import { CoursesHttpService } from '../../../infrastructure/courses-http.service
   styleUrls: ['./edit-course-dialog.component.css']
 })
 export class EditCourseDialogComponent {
+  private fb: FormBuilder = inject(FormBuilder);
+  private dialogRef: MatDialogRef<EditCourseDialogComponent> =
+    inject(MatDialogRef);
+  private coursesService: CoursesEntityService = inject(CoursesEntityService);
+  private data = inject(MAT_DIALOG_DATA);
   form: FormGroup;
 
   dialogTitle: string;
@@ -22,15 +27,10 @@ export class EditCourseDialogComponent {
 
   loading$: Observable<boolean>;
 
-  constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditCourseDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
-    private coursesService: CoursesHttpService
-  ) {
-    this.dialogTitle = data.dialogTitle;
-    this.course = data.course;
-    this.mode = data.mode;
+  constructor() {
+    this.dialogTitle = this.data.dialogTitle;
+    this.course = this.data.course;
+    this.mode = this.data.mode;
 
     const formControls = {
       description: ['', Validators.required],
@@ -41,7 +41,7 @@ export class EditCourseDialogComponent {
 
     if (this.mode == 'update') {
       this.form = this.fb.group(formControls);
-      this.form.patchValue({ ...data.course });
+      this.form.patchValue({ ...this.data.course });
     } else if (this.mode == 'create') {
       this.form = this.fb.group({
         ...formControls,
@@ -61,8 +61,18 @@ export class EditCourseDialogComponent {
       ...this.form.value
     };
 
-    this.coursesService
-      .saveCourse(course.id, course)
-      .subscribe(() => this.dialogRef.close());
+    if (this.mode == 'update') {
+      this.coursesService.update(course);
+      this.dialogRef.close();
+    } else if (this.mode == 'create') {
+      this.coursesService.add(course).subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        (error) => {
+          console.log('Error', error);
+        }
+      );
+    }
   }
 }
