@@ -24,3 +24,4 @@ export const CoursesResolver: ResolveFn<boolean> = (
     first()
   );
 };
+

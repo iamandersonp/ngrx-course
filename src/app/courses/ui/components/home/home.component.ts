@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Course } from '../../../domain/model/course';
 import { defaultDialogConfig } from '../../shared/default-dialog-config';
 import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
+
 import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
 
 @Component({
@@ -17,7 +18,6 @@ export class HomeComponent implements OnInit {
   private dialog: MatDialog = inject(MatDialog);
   private coursesService: CoursesEntityService = inject(CoursesEntityService);
   promoTotal$: Observable<number>;
-
   beginnerCourses$: Observable<Course[]>;
 
   advancedCourses$: Observable<Course[]>;
