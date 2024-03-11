@@ -8,11 +8,23 @@ import { Lesson } from '../../../domain/model/lesson';
 
 import { CoursesEntityService } from '../../../infrastructure/courses-entity.service';
 import { LessonEntityService } from '../../../infrastructure/lesson-entity.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatButtonModule,
+    AsyncPipe
+  ]
 })
 export class CourseComponent implements OnInit {
   private coursesService: CoursesEntityService = inject(CoursesEntityService);
@@ -52,7 +64,8 @@ export class CourseComponent implements OnInit {
   loadLessonsPage(course: Course) {
     this.lessonsService.getWithQuery({
       courseId: course.id,
-      pageNumber: this.nextPage
+      pageNumber: this.nextPage,
+      pageSize: '3'
     });
     this.nextPage++;
   }
