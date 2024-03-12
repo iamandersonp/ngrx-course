@@ -1,17 +1,11 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -23,10 +17,7 @@
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-            "suffixes": [
-              "Page",
-              "Component"
-            ]
+            "suffixes": ["Page", "Component"]
           }
         ],
         "@angular-eslint/component-selector": [
@@ -48,20 +39,23 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     },
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/recommended-requiring-type-checking"]
+    },
+    {
+      "files": ["*.spec.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.spec.json"]
+      },
       "extends": [
-        "plugin:@ngrx/recommended-requiring-type-checking"
+        "plugin:@angular-eslint/recommended",
+        "plugin:@ngrx/recommended-requiring-type-checking",
+        "prettier"
       ]
     }
   ]
