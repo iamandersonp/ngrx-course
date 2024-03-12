@@ -41,3 +41,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+mochawesome-report/
+cypress/results/
+cypress/screenshots/
+mochawesome.json
