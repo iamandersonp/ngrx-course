@@ -58,13 +58,13 @@ bootstrapApplication(AppComponent, {
         { metaReducers: formRootRedurecer.metaReducers }
       ),
       EffectsModule.forRoot([]),
-      StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authReducer),
-      EffectsModule.forFeature([AuthEffectsService]),
       EntityDataModule.forRoot({}),
       StoreDevtoolsModule.instrument({
         maxAge: 25,
         logOnly: false
-      })
+      }),
+      StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authReducer),
+      EffectsModule.forFeature([AuthEffectsService])
     ),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi())
