@@ -12,7 +12,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom", "ES2017.object"],
     "useDefineForClassFields": false,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "exclude": ["**/**/*.spec.ts"],
   "angularCompilerOptions": {

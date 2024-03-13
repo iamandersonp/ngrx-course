@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["cypress", "node"],
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "allowJs": true
+  },
+  "include": ["**/*.cy.ts"],
+  "exclude": ["plugins/", "src/"]
+}

@@ -1,6 +1,9 @@
 {
   "root": true,
   "ignorePatterns": ["projects/**/*"],
+  "parserOptions": {
+    "ecmaVersion": 2015
+  },
   "overrides": [
     {
       "files": ["*.ts"],
@@ -52,11 +55,29 @@
       "parserOptions": {
         "project": ["tsconfig.spec.json"]
       },
+      "plugins": ["jest"],
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@ngrx/recommended-requiring-type-checking",
+        "plugin:jest/recommended",
         "prettier"
-      ]
+      ],
+      "rules": { "jest/prefer-expect-assertions": "off" }
+    },
+    {
+      "files": ["*.cy.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.e2e.json"]
+      },
+      "plugins": ["cypress"],
+      "extends": ["prettier"],
+      "rules": {
+        "cypress/no-assigning-return-values": "error",
+        "cypress/no-unnecessary-waiting": "error",
+        "cypress/assertion-before-screenshot": "warn",
+        "cypress/no-force": "warn",
+        "cypress/no-async-tests": "error",
+        "cypress/no-pause": "error"
+      }
     }
   ]
 }
