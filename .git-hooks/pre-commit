@@ -3,7 +3,7 @@
 
 git stash -q --keep-index
 
-npm run prettier:write
+find src/ -name .DS_Store -exec rm {} \; && npm run prettier:write && npm run prettier:writee2e
 
 status=$?
 

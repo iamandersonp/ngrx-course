@@ -7,15 +7,15 @@
     "declaration": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom",
-      "ES2017.object"
-    ],
-    "useDefineForClassFields": false
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom", "ES2017.object"],
+    "useDefineForClassFields": false,
+    "types": ["jest", "node"]
+  },
+  "exclude": ["**/**/*.spec.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
   }
 }
