@@ -17,7 +17,7 @@
     "prettier:write": "prettier --write src/**/**/**/**/**/**/**/**/*.{html,ts,scss}",
     "prettier:checke2e": "prettier --check cypress/**/**/**/**/**/**/**/**/*.{html,ts,scss}",
     "prettier:writee2e": "prettier --write cypress/**/**/**/**/**/**/**/**/*.{html,ts}",
-    "setup:git-hooks": "git config core.hooksPath .git-hooks 2> /dev/null",
+    "setup:git-hooks": "git config core.hooksPath .git-hooks || true && chmod +x ./.git-hooks/*",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
