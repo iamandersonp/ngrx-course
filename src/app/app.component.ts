@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   NavigationCancel,
@@ -37,6 +38,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   ]
 })
 export class AppComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   loading = true;
   isLoggedIn$: Observable<boolean> = this.store.select(
     AuthSelectors.selectIsLoggedIn
@@ -55,24 +57,26 @@ export class AppComponent implements OnInit {
     if (user) {
       this.store.dispatch(AuthActions.loginAction({ user: JSON.parse(user) }));
     }
-    this.router.events.subscribe((event) => {
-      switch (true) {
-        case event instanceof NavigationStart: {
-          this.loading = true;
-          break;
-        }
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        switch (true) {
+          case event instanceof NavigationStart: {
+            this.loading = true;
+            break;
+          }
 
-        case event instanceof NavigationEnd:
-        case event instanceof NavigationCancel:
-        case event instanceof NavigationError: {
-          this.loading = false;
-          break;
+          case event instanceof NavigationEnd:
+          case event instanceof NavigationCancel:
+          case event instanceof NavigationError: {
+            this.loading = false;
+            break;
+          }
+          default: {
+            break;
+          }
         }
-        default: {
-          break;
-        }
-      }
-    });
+      });
   }
 
   logout() {
