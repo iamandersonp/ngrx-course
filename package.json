@@ -32,7 +32,8 @@
     "prereport": "npm run delete:reports && npm run delete:screenshots && npm run mocka:delete",
     "report": "npx cypress run --reporter mochawesome  --reporter-options reportDir=\"cypress/results\",overwrite=false,html=false,json=true",
     "postreport": "npm run combine:reports && npm run mocka:report",
-    "postinstall": "npm run setup:git-hooks"
+    "postinstall": "npm run setup:git-hooks",
+    "prettier-staged": "prettier-staged"
   },
   "private": true,
   "dependencies": {
@@ -77,7 +78,7 @@
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
     "@cypress/schematic": "^2.5.1",
-    "@iamandersonp/prettier-staged": "^0.3.1",
+    "@iamandersonp/prettier-staged": "^0.5.0",
     "@ngrx/eslint-plugin": "^17.0.1",
     "@ngrx/schematics": "^17.0.1",
     "@types/express": "^4.0.39",
