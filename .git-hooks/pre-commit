@@ -29,7 +29,7 @@ fi
 
 find src -name .DS_Store -exec rm {} \;
 
-npm run prettier-staged
+npx prettier-staged
 
 # Obtener extensiones desde .env y construir patrón dinámico
 EXTENSIONS_PATTERN=$(get_extensions_from_env)
