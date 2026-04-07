@@ -1,12 +1,15 @@
 #!/bin/sh
 #
+if git ls-files -u | grep -q .; then
+echo "⚠️  Merge in progress with conflicts. Skipping Prettier to avoid issues."
+  exit 0
+fi
+find src -name .DS_Store -exec rm {} \;
 
-git stash -q --keep-index
+npm run prettier-staged
 
-find src/ -name .DS_Store -exec rm {} \; && npm run prettier:write && npm run prettier:writee2e
+STAGED_FILES=$(git diff --name-only --cached --diff-filter=ACM | grep -E '\.(html|ts|scss|css|json)$')
 
-status=$?
-
-git stash pop -q
-
-exit $status
+if [ -n "$STAGED_FILES" ]; then
+  echo "$STAGED_FILES" | xargs git add
+fi
